@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Shatomin v0.1.3 - Badminton Rule Buddy</title>
+  <title>Shatomin v0.1.6 - Badminton Rule Buddy</title>
   <style>
     :root {
       --bg: #f5fbf7;
@@ -349,7 +349,7 @@
         <p class="subtitle">
           バドミントンのルール、サーブ順、フォルト、レット、試合中のちょっとした悩みに答えるミン。<br><span class="en">Ask Shatomin about badminton rules, service order, faults, lets, and match situations.</span>
         </p>
-        <span class="version">v0.1.3 Bilingual / Bedrock API connected</span>
+        <span class="version">v0.1.6 Bilingual / CORS simple-request patch</span>
         <div class="api-status" aria-live="polite">
           <span id="apiDot" class="dot"></span>
           <span id="apiStatusText">Demo mode：API_ENDPOINTを設定するとBedrock連携できます / Set API_ENDPOINT to connect with Bedrock</span>
@@ -391,7 +391,7 @@
         <button class="send-btn" type="submit">Send</button>
       </form>
       <p class="hint">
-        Tip：まずはFAQボタンで動作確認できます。API連携時はHTML内の <code>API_ENDPOINT</code> を設定してください。<br>English: Try the FAQ buttons first. When connecting to Bedrock, set <code>API_ENDPOINT</code> in this HTML file.
+        Tip：まずはFAQボタンで動作確認できます。API連携時はHTML内の <code>API_ENDPOINT</code> を設定してください。<br>English: Try the FAQ buttons first. This version uses a simple request to reduce CORS preflight issues.
       </p>
     </section>
 
@@ -402,7 +402,7 @@
 
   <script>
     // ==============================
-    // Shatomin v0.1.3
+    // Shatomin v0.1.6
     // Set your API Gateway endpoint here when ready.
     // Example: const API_ENDPOINT = "https://xxxxx.execute-api.ap-southeast-5.amazonaws.com/prod/chat";
     // ==============================
@@ -504,24 +504,39 @@
 
         const res = await fetch(API_ENDPOINT, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          mode: "cors",
+          headers: { "Content-Type": "text/plain;charset=UTF-8" },
           body: JSON.stringify({
+            // message: Shatomin Lambda用
+            // prompt: 既存Boke Lambda互換用
             message,
+            prompt: message,
             mode: state.mode,
             app: "shatomin",
-            version: "0.1.3"
+            version: "0.1.6"
           })
         });
 
-        if (!res.ok) {
-          throw new Error("API error: " + res.status);
+        const rawText = await res.text();
+
+        let data = {};
+        try {
+          data = rawText ? JSON.parse(rawText) : {};
+        } catch (jsonErr) {
+          data = { rawText };
         }
 
-        const data = await res.json();
-        addMessage("bot", data.answer || data.message || "シャトミン、回答を受け取れなかったミン。");
+        if (!res.ok) {
+          throw new Error(
+            "HTTP " + res.status + " " + res.statusText + "\n" +
+            "Response: " + (rawText || "(empty response)")
+          );
+        }
+
+        addMessage("bot", data.answer || data.result || data.message || data.rawText || "シャトミン、回答を受け取れなかったミン。");
       } catch (err) {
         console.error(err);
-        addMessage("bot", "ごめんミン。API接続でエラーが出ました。API_ENDPOINT、CORS、Lambdaのレスポンス形式を確認してください。");
+        addMessage("bot", "ごめんミン。API接続でエラーが出ました。\n\nDebug detail:\n" + (err?.message || String(err)) + "\n\n次に見る場所：\n1. ブラウザのDeveloper Tools > Console / Network\n2. API GatewayのCORS設定\n3. Lambda CloudWatch Logs\n4. API Endpoint URLが正しいか");
       } finally {
         setBusy(false);
         input.focus();
