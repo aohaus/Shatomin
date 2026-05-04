@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Shatomin v0.1.0 - Badminton Rule Buddy</title>
+  <title>Shatomin v0.1.2 - Badminton Rule Buddy</title>
   <style>
     :root {
       --bg: #f5fbf7;
@@ -90,6 +90,11 @@
       line-height: 1.65;
     }
 
+    .en {
+      color: var(--muted);
+      font-size: 0.96em;
+    }
+
     .version {
       display: inline-block;
       margin-top: 12px;
@@ -147,10 +152,19 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    .mode-btn span, .quick-btn span {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      opacity: 0.82;
+      margin-top: 2px;
+    }
+
     .mode-btn, .quick-btn {
       border-radius: 999px;
-      padding: 10px 13px;
+      padding: 10px 14px;
       font-weight: 750;
+      line-height: 1.15;
       transition: transform 0.12s ease, background 0.12s ease, color 0.12s ease;
     }
 
@@ -333,12 +347,12 @@
         <div class="badge">🏸 Badminton Rule Buddy</div>
         <h1>Shatomin</h1>
         <p class="subtitle">
-          バドミントンのルール、サーブ順、フォルト、レット、試合中のちょっとした悩みに答えるミン。
+          バドミントンのルール、サーブ順、フォルト、レット、試合中のちょっとした悩みに答えるミン。<br><span class="en">Ask Shatomin about badminton rules, service order, faults, lets, and match situations.</span>
         </p>
-        <span class="version">v0.1.0 UI Mock / Bedrock-ready</span>
+        <span class="version">v0.1.2 Bilingual UI Mock / Bedrock-ready</span>
         <div class="api-status" aria-live="polite">
           <span id="apiDot" class="dot"></span>
-          <span id="apiStatusText">Demo mode：API_ENDPOINTを設定するとBedrock連携できます</span>
+          <span id="apiStatusText">Demo mode：API_ENDPOINTを設定するとBedrock連携できます / Set API_ENDPOINT to connect with Bedrock</span>
         </div>
       </div>
       <div class="shatomin-img-wrap">
@@ -347,51 +361,48 @@
     </section>
 
     <section class="panel">
-      <p class="section-title">Answer Mode</p>
+      <p class="section-title">Answer Mode / 回答モード</p>
       <div class="mode-row" id="modeRow">
-        <button class="mode-btn active" data-mode="rule">Rule</button>
-        <button class="mode-btn" data-mode="kids">Kids</button>
-        <button class="mode-btn" data-mode="coach">Coach</button>
-        <button class="mode-btn" data-mode="parent">Parent</button>
+        <button class="mode-btn active" data-mode="rule">Rule<br><span>ルール</span></button>
+        <button class="mode-btn" data-mode="kids">Kids<br><span>子ども向け</span></button>
+        <button class="mode-btn" data-mode="coach">Coach<br><span>コーチ</span></button>
+        <button class="mode-btn" data-mode="parent">Parent<br><span>保護者</span></button>
       </div>
     </section>
 
     <section class="panel">
-      <p class="section-title">Quick Questions</p>
+      <p class="section-title">Quick Questions / よくある質問</p>
       <div class="quick-row">
-        <button class="quick-btn" data-q="サーブのとき、足がラインに触れたらフォルトですか？">Service</button>
-        <button class="quick-btn" data-q="ダブルスで次に誰がサーブするか分からなくなりました。どう考えればよいですか？">Doubles</button>
-        <button class="quick-btn" data-q="どんな時にレットになりますか？">Let</button>
-        <button class="quick-btn" data-q="フォルトになる代表例を教えてください。">Fault</button>
-        <button class="quick-btn" data-q="シャトルがライン上に落ちたらインですか、アウトですか？">In / Out</button>
-        <button class="quick-btn" data-q="15点制と21点制の違いを簡単に教えてください。">Scoring</button>
-        <button class="quick-btn" data-q="試合で緊張するとき、最初に何を意識すればよいですか？">Advice</button>
+        <button class="quick-btn" data-q="サーブのとき、足がラインに触れたらフォルトですか？">Service<br><span>サーブ</span></button>
+        <button class="quick-btn" data-q="ダブルスで次に誰がサーブするか分からなくなりました。どう考えればよいですか？">Doubles<br><span>ダブルス</span></button>
+        <button class="quick-btn" data-q="どんな時にレットになりますか？">Let<br><span>レット</span></button>
+        <button class="quick-btn" data-q="フォルトになる代表例を教えてください。">Fault<br><span>フォルト</span></button>
+        <button class="quick-btn" data-q="シャトルがライン上に落ちたらインですか、アウトですか？">In / Out<br><span>イン/アウト</span></button>
+        <button class="quick-btn" data-q="15点制と21点制の違いを簡単に教えてください。">Scoring<br><span>得点</span></button>
+        <button class="quick-btn" data-q="試合で緊張するとき、最初に何を意識すればよいですか？">Advice<br><span>助言</span></button>
       </div>
     </section>
 
     <section class="panel">
-      <p class="section-title">Chat</p>
+      <p class="section-title">Chat / チャット</p>
       <div id="chat" class="chat" aria-live="polite"></div>
       <form id="form" class="composer">
-        <textarea id="input" placeholder="Ask Shatomin... 例：ダブルスでサーブ順が分からなくなった" required></textarea>
+        <textarea id="input" placeholder="Ask Shatomin... / シャトミンに聞く 例：ダブルスでサーブ順が分からなくなった" required></textarea>
         <button class="send-btn" type="submit">Send</button>
       </form>
       <p class="hint">
-        Tip：まずはFAQボタンで動作確認できます。API連携時はHTML内の <code>API_ENDPOINT</code> を設定してください。
+        Tip：まずはFAQボタンで動作確認できます。API連携時はHTML内の <code>API_ENDPOINT</code> を設定してください。<br>English: Try the FAQ buttons first. When connecting to Bedrock, set <code>API_ENDPOINT</code> in this HTML file.
       </p>
     </section>
 
     <section class="panel disclaimer">
-      <strong>Disclaimer / 注意：</strong>
-      Shatomin is for learning and reference only. In official matches, follow the latest BWF Statutes,
-      tournament regulations, umpire, and referee decisions.
-      本アプリは学習・確認用です。公式試合では大会要項、主審、レフェリー、最新のBWF規程に従ってください。
+      <strong>Disclaimer / 注意：</strong><br>Shatomin is for learning and reference only. In official matches, please follow the latest BWF rules, tournament rules, umpire, and referee decisions.<br>本アプリは学習・確認用です。公式試合では、大会要項・主審・レフェリー・最新のBWF規程に従ってください。
     </section>
   </main>
 
   <script>
     // ==============================
-    // Shatomin v0.1.0
+    // Shatomin v0.1.2
     // Set your API Gateway endpoint here when ready.
     // Example: const API_ENDPOINT = "https://xxxxx.execute-api.ap-southeast-5.amazonaws.com/prod/chat";
     // ==============================
@@ -422,13 +433,13 @@
     };
 
     const sampleAnswers = {
-      "Service": "まかせてミン！サーブは最初の構えがとても大事だミン。\n\n結論：サーブのときに足がサービスコートのラインに触れていると、一般的にはフォルトになります。\n\nサーバーもレシーバーも、正しいサービスコート内に立ち、ラインに触れないようにするのが基本です。公式戦では主審・サービスジャッジの判断に従ってください。",
-      "Doubles": "大丈夫だミン。迷ったら、まず点数を見るミン。\n\n結論：サーブ側の点数が偶数なら右側、奇数なら左側からサーブします。\n\nダブルスでは、ラリーに勝った側が1点を取り、次のサーブ権を持ちます。サーブ側が続けて点を取った場合は、同じサーバーが左右を入れ替えてサーブします。",
-      "Let": "ちょっと待つミン、という場面がレットだミン。\n\n結論：レットは、ラリーをやり直す判断です。\n\nたとえば、予期しない妨害があった場合、レシーバーの準備前にサーブされた場合、シャトルが壊れた場合などが考えられます。ただし、最終判断は主審や大会ルールに従います。",
-      "Fault": "フォルトは、ルール上のミスだミン。\n\n代表例：\n・サーブでラインを踏む\n・ネットを越える前にシャトルを打つ\n・ラケットや体がネットに触れる\n・シャトルがアウトになる\n・同じ側で連続して2回打つ\n\n練習では、まずサーブとネットタッチから覚えると分かりやすいです。",
-      "In / Out": "ラインは味方だミン！\n\n結論：シャトルがライン上に落ちたらインです。\n\nバドミントンでは、ラインに少しでも触れていればインとして扱います。迷ったときは、練習では近くで見ていた人の判断、公式戦では線審・主審の判断に従います。",
-      "Scoring": "点数ルールは大会によって変わることがあるミン。\n\n結論：21点制は多くの大会で使われてきた標準的な形式で、15点制は試合時間を短くしやすい形式です。\n\n実際の大会では、大会要項に書かれたスコア方式が最優先です。Shatominでは、15点制・21点制の両方を説明できるようにしておくのがよいです。",
-      "Advice": "緊張しても大丈夫だミン。強く打つより、まず入れるミン。\n\nおすすめは、最初の3ラリーだけ「ミスしない」を目標にすることです。\n\n1. サーブを丁寧に入れる\n2. 強打より高く深く返す\n3. 相手より先に焦らない\n\n最初にラリーが続くと、体も気持ちも落ち着きやすくなります。"
+      "Service": "まかせてミン！サーブは最初の構えがとても大事だミン。\n\n結論：サーブのときに足がサービスコートのラインに触れていると、一般的にはフォルトになります。\n\nEnglish: If your foot touches the service court line during service, it is usually a fault. The server and receiver should stand inside the correct service courts without touching the lines. In official matches, follow the umpire or service judge.",
+      "Doubles": "大丈夫だミン。迷ったら、まず点数を見るミン。\n\n結論：サーブ側の点数が偶数なら右側、奇数なら左側からサーブします。\n\nEnglish: In doubles, look at the serving side’s score. If the score is even, serve from the right. If the score is odd, serve from the left. The side that wins the rally gets one point and serves next.",
+      "Let": "ちょっと待つミン、という場面がレットだミン。\n\n結論：レットは、ラリーをやり直す判断です。\n\nEnglish: A let means the rally is played again. It may happen if there is unexpected interference, if the receiver was not ready, or if the shuttle breaks. In official matches, the umpire makes the final decision.",
+      "Fault": "フォルトは、ルール上のミスだミン。\n\n代表例：\n・サーブでラインを踏む\n・ネットを越える前にシャトルを打つ\n・ラケットや体がネットに触れる\n・シャトルがアウトになる\n・同じ側で連続して2回打つ\n\nEnglish: A fault is a rule mistake. Common examples are stepping on the line during service, touching the net, hitting the shuttle before it crosses the net, hitting out, or hitting twice on the same side.",
+      "In / Out": "ラインは味方だミン！\n\n結論：シャトルがライン上に落ちたらインです。\n\nEnglish: If the shuttle lands on the line, it is in. Even if it touches the line only a little, it counts as in. In official matches, follow the line judge or umpire.",
+      "Scoring": "点数ルールは大会によって変わることがあるミン。\n\n結論：21点制は多くの大会で使われてきた形式で、15点制は試合時間を短くしやすい形式です。\n\nEnglish: Scoring rules can depend on the tournament. 21-point games have been widely used, while 15-point games can make matches shorter. Always check the tournament rules first.",
+      "Advice": "緊張しても大丈夫だミン。強く打つより、まず入れるミン。\n\nおすすめは、最初の3ラリーだけ「ミスしない」を目標にすることです。\n\n1. サーブを丁寧に入れる\n2. 強打より高く深く返す\n3. 相手より先に焦らない\n\nEnglish: It is okay to feel nervous. For the first three rallies, focus on keeping the shuttle in, not hitting hard. A good start helps your body and mind calm down."
     };
 
     function addMessage(role, text) {
@@ -498,7 +509,7 @@
             message,
             mode: state.mode,
             app: "shatomin",
-            version: "0.1.0"
+            version: "0.1.2"
           })
         });
 
@@ -524,7 +535,7 @@
       document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       state.mode = btn.dataset.mode;
-      addMessage("bot", modeLabels[state.mode] + "モードにしたミン。");
+      addMessage("bot", modeLabels[state.mode] + " mode にしたミン。\n" + "Now Shatomin will answer in " + modeLabels[state.mode] + " mode.");
     });
 
     document.querySelectorAll(".quick-btn").forEach(btn => {
@@ -550,7 +561,7 @@
       }
     });
 
-    addMessage("bot", "こんにちは、シャトミンだミン！\nバドミントンのルール、サーブ順、フォルト、レット、試合の悩みを聞いてください。まずはFAQボタンでもOKです。");
+    addMessage("bot", "こんにちは、シャトミンだミン！\nバドミントンのルール、サーブ順、フォルト、レット、試合の悩みを聞いてください。\n\nHi, I am Shatomin! Ask me about badminton rules, service order, faults, lets, or match questions. You can start with the FAQ buttons.");
   </script>
 </body>
 </html>
