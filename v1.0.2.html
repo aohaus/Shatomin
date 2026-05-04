@@ -540,10 +540,7 @@
         addMessage("bot", data.answer || data.result || data.message || data.rawText || "シャトミン、回答を受け取れなかったミン。");
       } catch (err) {
         console.error(err);
-        addMessage("bot", "ごめんミン。今はうまく答えられませんでした。
-少し時間をおいて、もう一度試してください。
-
-Sorry, Shatomin could not answer right now. Please try again in a moment.");
+        addMessage("bot", "ごめんミン。今はうまく答えられませんでした。\\n少し時間をおいて、もう一度試してください。\\n\\nSorry, Shatomin could not answer right now. Please try again in a moment.");
       } finally {
         setBusy(false);
         input.focus();
