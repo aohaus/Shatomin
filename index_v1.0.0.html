@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Shatomin v1.0.4 - Badminton Rule Buddy</title>
+  <title>Shatomin v0.1.6 - Badminton Rule Buddy</title>
   <style>
     :root {
       --bg: #f5fbf7;
@@ -349,7 +349,7 @@
         <p class="subtitle">
           バドミントンのルール、サーブ順、フォルト、レット、試合中のちょっとした悩みに答えるミン。<br><span class="en">Ask Shatomin about badminton rules, service order, faults, lets, and match situations.</span>
         </p>
-        <span class="version">v1.0.4 Expanded FAQ Buttons</span>
+        <span class="version">v0.1.6 Bilingual / CORS simple-request patch</span>
         <div class="api-status" aria-live="polite">
           <span id="apiDot" class="dot"></span>
           <span id="apiStatusText">Demo mode：API_ENDPOINTを設定するとBedrock連携できます / Set API_ENDPOINT to connect with Bedrock</span>
@@ -380,12 +380,6 @@
         <button class="quick-btn" data-q="シャトルがライン上に落ちたらインですか、アウトですか？">In / Out<br><span>イン/アウト</span></button>
         <button class="quick-btn" data-q="15点制と21点制の違いを簡単に教えてください。">Scoring<br><span>得点</span></button>
         <button class="quick-btn" data-q="試合で緊張するとき、最初に何を意識すればよいですか？">Advice<br><span>助言</span></button>
-        <button class="quick-btn" data-q="レシーバーの準備ができていない時にサーブしたらどうなりますか？">Receiver<br><span>準備前</span></button>
-        <button class="quick-btn" data-q="ラケットや体がネットに触れたらフォルトですか？">Net Touch<br><span>ネット接触</span></button>
-        <button class="quick-btn" data-q="同じペアがシャトルを2回続けて打ったらどうなりますか？">Double Hit<br><span>2回打ち</span></button>
-        <button class="quick-btn" data-q="シャトルが天井や壁に当たった場合はどうなりますか？">Ceiling / Wall<br><span>天井・壁</span></button>
-        <button class="quick-btn" data-q="相手がまだ準備していないように見える時、サーブしてもよいですか？">Manners<br><span>マナー</span></button>
-        <button class="quick-btn" data-q="初心者が試合でまず気をつけるべきことを1つ教えてください。">Beginner<br><span>初心者</span></button>
       </div>
     </section>
 
@@ -397,22 +391,18 @@
         <button class="send-btn" type="submit">Send</button>
       </form>
       <p class="hint">
-        Tip：FAQボタンからよくある場面をすぐに質問できます。<br>English: Use the FAQ buttons to ask common badminton rule questions quickly.
+        Tip：まずはFAQボタンで動作確認できます。API連携時はHTML内の <code>API_ENDPOINT</code> を設定してください。<br>English: Try the FAQ buttons first. This version uses a simple request to reduce CORS preflight issues.
       </p>
     </section>
 
     <section class="panel disclaimer">
-      <strong>Disclaimer / 注意：</strong><br>
-      Shatomin is for learning and reference only.<br>
-      For official matches, please follow the tournament rules, umpire, referee, and latest official regulations.<br><br>
-      シャトミンは学習・確認用です。<br>
-      公式試合では、大会要項、主審、レフェリー、最新の公式規程に従ってください。
+      <strong>Disclaimer / 注意：</strong><br>Shatomin is for learning and reference only. In official matches, please follow the latest BWF rules, tournament rules, umpire, and referee decisions.<br>本アプリは学習・確認用です。公式試合では、大会要項・主審・レフェリー・最新のBWF規程に従ってください。
     </section>
   </main>
 
   <script>
     // ==============================
-    // Shatomin v1.0.4
+    // Shatomin v0.1.6
     // Set your API Gateway endpoint here when ready.
     // Example: const API_ENDPOINT = "https://xxxxx.execute-api.ap-southeast-5.amazonaws.com/prod/chat";
     // ==============================
@@ -523,7 +513,7 @@
             prompt: message,
             mode: state.mode,
             app: "shatomin",
-            version: "1.0.4"
+            version: "0.1.6"
           })
         });
 
@@ -546,7 +536,7 @@
         addMessage("bot", data.answer || data.result || data.message || data.rawText || "シャトミン、回答を受け取れなかったミン。");
       } catch (err) {
         console.error(err);
-        addMessage("bot", "ごめんミン。今はうまく答えられませんでした。\\n少し時間をおいて、もう一度試してください。\\n\\nSorry, Shatomin could not answer right now. Please try again in a moment.");
+        addMessage("bot", "ごめんミン。API接続でエラーが出ました。\n\nDebug detail:\n" + (err?.message || String(err)) + "\n\n次に見る場所：\n1. ブラウザのDeveloper Tools > Console / Network\n2. API GatewayのCORS設定\n3. Lambda CloudWatch Logs\n4. API Endpoint URLが正しいか");
       } finally {
         setBusy(false);
         input.focus();
