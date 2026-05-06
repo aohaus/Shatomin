@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Shatomin v1.0.4 - Badminton Rule Buddy</title>
+  <title>Shatomin v1.0.5 - Badminton Rule Buddy</title>
   <style>
     :root {
       --bg: #f5fbf7;
@@ -349,7 +349,7 @@
         <p class="subtitle">
           バドミントンのルール、サーブ順、フォルト、レット、試合中のちょっとした悩みに答えるミン。<br><span class="en">Ask Shatomin about badminton rules, service order, faults, lets, and match situations.</span>
         </p>
-        <span class="version">v1.0.4 Expanded FAQ Buttons</span>
+        <span class="version">v1.0.5 Layout order update</span>
         <div class="api-status" aria-live="polite">
           <span id="apiDot" class="dot"></span>
           <span id="apiStatusText">Demo mode：API_ENDPOINTを設定するとBedrock連携できます / Set API_ENDPOINT to connect with Bedrock</span>
@@ -361,13 +361,15 @@
     </section>
 
     <section class="panel">
-      <p class="section-title">Answer Mode / 回答モード</p>
-      <div class="mode-row" id="modeRow">
-        <button class="mode-btn active" data-mode="rule">Rule<br><span>ルール</span></button>
-        <button class="mode-btn" data-mode="kids">Kids<br><span>子ども向け</span></button>
-        <button class="mode-btn" data-mode="coach">Coach<br><span>コーチ</span></button>
-        <button class="mode-btn" data-mode="parent">Parent<br><span>保護者</span></button>
-      </div>
+      <p class="section-title">Chat / チャット</p>
+      <div id="chat" class="chat" aria-live="polite"></div>
+      <form id="form" class="composer">
+        <textarea id="input" placeholder="Ask Shatomin... / シャトミンに聞く 例：ダブルスでサーブ順が分からなくなった" required></textarea>
+        <button class="send-btn" type="submit">Send</button>
+      </form>
+      <p class="hint">
+        Tip：FAQボタンからよくある場面をすぐに質問できます。<br>English: Use the FAQ buttons to ask common badminton rule questions quickly.
+      </p>
     </section>
 
     <section class="panel">
@@ -390,15 +392,13 @@
     </section>
 
     <section class="panel">
-      <p class="section-title">Chat / チャット</p>
-      <div id="chat" class="chat" aria-live="polite"></div>
-      <form id="form" class="composer">
-        <textarea id="input" placeholder="Ask Shatomin... / シャトミンに聞く 例：ダブルスでサーブ順が分からなくなった" required></textarea>
-        <button class="send-btn" type="submit">Send</button>
-      </form>
-      <p class="hint">
-        Tip：FAQボタンからよくある場面をすぐに質問できます。<br>English: Use the FAQ buttons to ask common badminton rule questions quickly.
-      </p>
+      <p class="section-title">Answer Mode / 回答モード</p>
+      <div class="mode-row" id="modeRow">
+        <button class="mode-btn active" data-mode="rule">Rule<br><span>ルール</span></button>
+        <button class="mode-btn" data-mode="kids">Kids<br><span>子ども向け</span></button>
+        <button class="mode-btn" data-mode="coach">Coach<br><span>コーチ</span></button>
+        <button class="mode-btn" data-mode="parent">Parent<br><span>保護者</span></button>
+      </div>
     </section>
 
     <section class="panel disclaimer">
@@ -412,7 +412,7 @@
 
   <script>
     // ==============================
-    // Shatomin v1.0.4
+    // Shatomin v1.0.5
     // Set your API Gateway endpoint here when ready.
     // Example: const API_ENDPOINT = "https://xxxxx.execute-api.ap-southeast-5.amazonaws.com/prod/chat";
     // ==============================
@@ -523,7 +523,7 @@
             prompt: message,
             mode: state.mode,
             app: "shatomin",
-            version: "1.0.4"
+            version: "1.0.5"
           })
         });
 
